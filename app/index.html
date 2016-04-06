@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="app">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mes signets</title>
+
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
+  
+  <body>
+    <script> window.prolongation_ENT_args = { current: "signet" } </script>
+    <script src="https://ent-test.univ-paris1.fr/ProlongationENT/loader.js"></script>
+
+    <div class="container-fluid" ng-controller="BookmarkCtrl">
+
+      <div class="row">
+
+        <div class="col-md-8 col-md-push-4 bookmarks">
+          <div ng-if="bookmarks.length == 0" class="alert alert-info">
+            Vous n'avez pas de signets.
+          </div>
+          <div class="bookmark-item" ng-repeat="bookmark in bookmarks | filter:search.text">
+            <div ng-if="!bookmark.edit">
+              <span class="title">
+                <span class="glyphicon glyphicon-link"></span>
+                <a href="{{bookmark.code || bookmark.link}}" target="_blank">{{bookmark.code || bookmark.link}}</a>
+                <small>{{bookmark.code && bookmark.link}}</small>
+                <span class="glyphicon glyphicon-pencil" ng-click="editBookmark(bookmark)"></span>
+                <span class="glyphicon glyphicon-remove" ng-click="deleteBookmark(bookmark)"></span>
+              </span>
+
+              <div class="description" ng-if="bookmark.description">
+                <span ng-repeat="tag in bookmark.desc">
+                  <span ng-if="tag.tag">
+                    <a ng-click="search.text = tag.name" class="label label-info myTag">{{tag.name}}</a>
+                  </span>
+                  <span ng-if="!tag.tag">
+                    {{tag.name}}
+                  </span>
+                </span>
+              </div>
+
+            </div>
+            <div ng-if="bookmark.edit">
+              <form class="editBookmark">
+                <input type="text" class="form-control" placeholder="http://..." ng-model="bookmark.link">
+                
+                <div ng-if="bookmark.backup">
+                  <!--<input type="text" class="form-control" placeholder="Raccourci personnalisé" ng-model="bookmark.code"> -->
+                  <textarea class="form-control" addtext="bookmark.addtext" placeholder="Décrit le site avec des #Tags..." ng-model="bookmark.description">
+                  </textarea>
+
+                  <div ng-if="tags.length" style="margin-bottom: 2em">
+                    Suggestion de mots clés :
+                    <span class="label label-info myTag" ng-repeat="tag in tags" ng-click="bookmark.addtext.withSpace(tag)">
+                      {{tag}}
+                    </span>
+                  </div>                  
+                </div>
+
+                <button type="submit" class="btn btn-primary" ng-click="saveBookmark(bookmark)">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                  Sauvegarder</button>
+                <button type="submit" class="btn btn-default" ng-click="cancelBookmark(bookmark)">Annuler</button>
+
+              </form>
+            </div>
+          </div>
+
+          <div ng-if="!haveDescriptions && bookmarks.length" class="alert alert-info" style="margin-top: 2em">
+            Vous pouvez décrire vos signets (pour faciliter la recherche) en cliquant sur l'icone <span class="glyphicon glyphicon-pencil"></span>.
+            <p>
+              Pour supprimer un signet, cliquez sur l'icone <span class="glyphicon glyphicon-remove"></span>.
+          </div>
+         
+        </div>
+
+        <div class="col-md-4 col-md-pull-8 menu">
+
+          <div ng-if="bookmarks.length > 1">
+            <h2><span class="glyphicon glyphicon-search"></span> Filtrer les signets</h2>
+            <form>
+              <input autofocus type="text" class="form-control" placeholder="Des mots..." ng-model="search.text">
+            </form>
+          </div>
+
+          <h2><span class="glyphicon glyphicon-floppy-save"></span> Ajouter un signet</h2>
+          <form class="addBookmark">
+            <input type="text" class="form-control" placeholder="http://..." ng-model="bookmark.link">
+
+            <button type="submit" class="btn btn-primary" ng-click="addBookmark(bookmark)" ng-disabled="!bookmark.link">
+              <span class="glyphicon glyphicon-plus"></span>
+              Ajouter</button>
+
+            <label class="btn btn-primary">
+              <span class="glyphicon glyphicon-import"></span>
+              Import <input text-file-select ng-model="toImport" style="display: none;" type="file">
+            </label>
+          </form>
+        </div>
+        
+      </div>
+
+      <a class="btn btn-primary export" ng-click="exported = computeExport()" ng-href="{{exported}}" download="bookmarks.html" ng-show="bookmarks.length > 1">
+        <span class="glyphicon glyphicon-export"></span>
+        Export</a>
+      
+    </div>
+  </body>
+</html>

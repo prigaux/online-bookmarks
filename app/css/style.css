@@ -1,0 +1,90 @@
+.container-fluid {
+    max-width: 1200px;
+    padding-bottom: 1em;
+}
+
+.menu h2 {
+    margin-top: 1em;
+}
+
+.menu {
+	padding-bottom: 2em;
+	background-color: #f7f5fa;
+	border-radius: 5px;
+}
+
+.bookmarks {
+    padding-left: 2em;
+}
+@media (max-width: 970px) {
+    .bookmarks {
+        padding: 0;
+    }
+}
+
+.bookmark-item .title .glyphicon-pencil,
+.bookmark-item .title .glyphicon-remove {
+    padding-left: 1em;
+}
+
+ul.bookmark {
+	margin-left: 28px;
+	margin-top: 5px;
+}
+
+.bookmark-item {
+	background-color: #f7f5fa;
+	padding: 0.5em 1em;
+	margin-bottom: 5px;
+	border-radius: 5px;
+        max-width: 100%;
+        overflow: hidden;
+}
+
+.bookmark-item .title {
+    font-size: 140%;
+}
+.bookmark-item .description {
+	margin-top: 0.8em;
+  margin-bottom: 0.5em;
+}
+
+.bookmark-item .title a {
+	margin: 0 0.2em;
+}
+.bookmark-item .title a,
+.bookmark-item .title small {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 30em;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.myTag {
+  margin-right: 4px; font-size: 100%;
+}
+
+.editBookmark input,
+.editBookmark textarea,
+.addBookmark input,
+.addBookmark textarea {
+	 margin: 0.6em 0;
+}
+
+.export {
+    float: right;
+}
+
+@media (max-width: 1170px) {
+    .bookmark-item .title .glyphicon-link {
+        display: none;
+    }
+}
+
+@media (min-width: 970px) and (max-width: 1170px) {
+    .bookmark-item .title a {
+        max-width: 24em;
+    }
+}

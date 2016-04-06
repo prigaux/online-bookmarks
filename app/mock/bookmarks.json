@@ -1,0 +1,28 @@
+[
+    {
+	"link": "http://www.google.com",
+	"description": "#search",
+  "Xedit": true
+    },
+    {
+	"link": "http://www.thenextthing.com",
+	"description": "Super site avec plein de #startup et de #search"
+    },
+    {
+	"link": "http://www.facebook.com",
+	"description": "#SocialNetwork"
+    },
+    {
+  "code": "gplus",
+	"link": "http://plus.google.com",
+	"description": "#SocialNetwork"
+    },
+    {
+	"link": "http://www.twitter.com",
+	"description": ""
+    },
+    {
+	"link": "http://news.ycombinator.com",
+	"description": "#news #tech #article #startup"
+    }
+]
