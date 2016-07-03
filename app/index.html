@@ -27,7 +27,7 @@
           <div ng-if="bookmarks.length == 0" class="alert alert-info">
             Vous n'avez pas de signets.
           </div>
-          <div class="bookmark-item" ng-repeat="bookmark in bookmarks | filter:search.text">
+          <div class="bookmark-item" ng-repeat="bookmark in bookmarksToDisplay">
             <div ng-if="!bookmark.edit">
               <span class="title">
                 <span class="glyphicon glyphicon-link"></span>
@@ -76,6 +76,9 @@
             </div>
           </div>
 
+	  <div ng-if="!allBookmarksDisplayed">
+	    Affichage limit&eacute; &agrave; {{maxBookmarks}} r&eacute;sultats. Utilisez la recherche pour les autres signets.
+	  </div>
           <div ng-if="!haveDescriptions && bookmarks.length" class="alert alert-info" style="margin-top: 2em">
             Vous pouvez décrire vos signets (pour faciliter la recherche) en cliquant sur l'icone <span class="glyphicon glyphicon-pencil"></span>.
             <p>

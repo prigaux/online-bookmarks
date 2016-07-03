@@ -104,6 +104,7 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
     $scope.bookmarks = [];
     $scope.bookmark = angular.copy(emptyBookmark);
     $scope.search = {};
+    $scope.maxBookmarks = 40;
 
     function normalizeLink(link) {
         return link.match(/^https?:/) ? link : "http://" + link;
@@ -111,12 +112,26 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
     function toWS(bookmark) {
         return objectSlice(bookmark, [ 'link', 'name', 'description', 'code', '_id' ]);
     }
+    function computeBookmarksToDisplay(bookmarks, search) {
+        var l = bookmarks;
+ 	var regex = new RegExp(search, "i");
+ 	if (search) l = l.filter(function (bm) {
+	    return regex.test(bm.name) || regex.test(bm.link) || regex.test(bm.description);
+	});
+        $scope.bookmarksToDisplay = l.slice(0, $scope.maxBookmarks);
+	$scope.allBookmarksDisplayed = l.length <= $scope.maxBookmarks;
+    }
 
     $scope.$watch('bookmarks', function (bookmarks) {
         //console.log("bookmarks modified");
         $scope.tags = computeTags(bookmarks);
 	$scope.haveDescriptions = bookmarks.filter(function (b) { return b.name || b.description; }).length > 0;
+	computeBookmarksToDisplay(bookmarks, $scope.search.text);
     }, true);
+
+    $scope.$watch('search.text', function (search_text) {
+	computeBookmarksToDisplay($scope.bookmarks, search_text);
+    });
 
     $scope.$watch('toImport', function (html) {
         //console.log("importing", html);
