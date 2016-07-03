@@ -137,7 +137,7 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
     $scope.addBookmark = function(bookmark) {
         bookmark.link = normalizeLink(bookmark.link);
         $http.post('api', toWS(bookmark)).success(function(bookmark) {
-	    $scope.bookmarks.push(parseBookmark(bookmark));
+	    $scope.bookmarks.unshift(parseBookmark(bookmark));
             // empty the form:
 	    angular.copy(emptyBookmark, bookmark);
         });
