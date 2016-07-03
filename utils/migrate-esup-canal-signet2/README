@@ -1,0 +1,17 @@
+1. apply prepare-export.sql:
+
+  mysql csignet < prepare-export.sql
+
+Then run the last UPDATE as many times as needed.
+
+2. export the database:
+
+  mysql --column-names csignet < export.sql > csignet.tsv
+
+3. import in tempory collection "signet2":
+
+  mongoimport --db signets --collection signet2 --drop --type tsv --headerline --file csignet.tsv
+
+4. finally merge the collection
+
+  mongo signets mongo-merge.js
