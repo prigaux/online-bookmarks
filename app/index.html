@@ -31,8 +31,8 @@
             <div ng-if="!bookmark.edit">
               <span class="title">
                 <span class="glyphicon glyphicon-link"></span>
-                <a href="{{bookmark.code || bookmark.link}}" target="_blank">{{bookmark.code || bookmark.link}}</a>
-                <small>{{bookmark.code && bookmark.link}}</small>
+                <a href="{{bookmark.code || bookmark.link}}" target="_blank">{{bookmark.name || bookmark.link}}</a>
+                <small>{{bookmark.name && bookmark.link}}</small>
                 <span class="glyphicon glyphicon-pencil" ng-click="editBookmark(bookmark)"></span>
                 <span class="glyphicon glyphicon-remove" ng-click="deleteBookmark(bookmark)"></span>
               </span>
@@ -54,7 +54,8 @@
                 <input type="text" class="form-control" placeholder="http://..." ng-model="bookmark.link">
                 
                 <div ng-if="bookmark.backup">
-                  <!--<input type="text" class="form-control" placeholder="Raccourci personnalisé" ng-model="bookmark.code"> -->
+                  <input type="text" class="form-control" placeholder="Nom" ng-model="bookmark.name">
+                  <!-- placeholder="Raccourci personnalisé"  -->
                   <textarea class="form-control" addtext="bookmark.addtext" placeholder="Décrit le site avec des #Tags..." ng-model="bookmark.description">
                   </textarea>
 

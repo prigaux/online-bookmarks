@@ -1,3 +1,10 @@
+function objectSlice(o, fields) {
+    var r = {};
+    angular.forEach(fields, function (field) {
+        r[field] = o[field];
+    });
+    return r;
+}
 
 function toTitleCase(str) {
     return str.replace(/(?:^|\s)\w/g, function(match) {
@@ -9,14 +16,22 @@ function parseNetscapeBookmarks(html) {
     var elt = document.createElement("div");
     elt.innerHTML = html; // wow, we have a nice HTML parser :)
     var r = [];
+    var current;
 
     function extractRec(path, elt) {
         var tag = elt.tagName.toLowerCase();
         if (tag === "a") {
             if (elt.href.match(/^http/)) {
-                r.push({ description: elt.innerText + " " + path.join(" "), link: elt.href });
+                current = { name: elt.innerText, link: elt.href };
+		if (path.length) current.description = path.join(" ");
+		r.push(current);
             }
+	} else if (tag === "dd") {
+	    if (current && elt.innerText.match(/\S/)) {
+		current.description = elt.innerText.trim() + (current.description ? " " + current.description : '');
+	    }
         } else if (tag === "dt") {
+	    current = null;
             var first = elt.children[0];
             if (first.tagName.match(/h3/i)) {
                 path = path.concat(["#" + toTitleCase(first.innerText).replace(/\s/g, '')]);
@@ -41,7 +56,8 @@ var netscapeBookmarks_header = [
 
 function exportNetscapeBookmarks(bookmarks) {
     var l = bookmarks.map(function (bookmark) {
-        return '<DT><A HREF="' + window.encodeURI(bookmark.link) + '">' + bookmark.description + '</A>';
+        return '<DT><A HREF="' + window.encodeURI(bookmark.link) + '">' + bookmark.name + '</A>' +
+	    '<DD>' + (bookmark.description || '');
     });
     
     return [ netscapeBookmarks_header, '<DL><p>' ].concat(l).concat('</DL><p>').join("\n");
@@ -49,7 +65,7 @@ function exportNetscapeBookmarks(bookmarks) {
 
 function parseDescription(description) {
     if (!description) return [ { name : "" } ];
-    return description.split(/(#[\w-]+)/).filter(function (s) { return !s.match(/^\s*$/) }).map(function (s) {
+    return description.split(/(#[\w\x80-\xff-]+)/).filter(function (s) { return !s.match(/^\s*$/) }).map(function (s) {
 	return { name: s, tag: s.match(/^#/) };
     })
 }
@@ -72,7 +88,7 @@ function computeTags(bookmarks) {
 }
 
 function computeHash(bookmark) {
-    return [ bookmark.link, bookmark.description ].join('|');
+    return [ bookmark.link, bookmark.name, bookmark.description ].join('|');
 }
 function computeHashes(bookmarks) {
     var h = {};
@@ -93,13 +109,13 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
         return link.match(/^https?:/) ? link : "http://" + link;
     }
     function toWS(bookmark) {
-        return { link: bookmark.link, description: bookmark.description, code: bookmark.code, _id: bookmark._id };
+        return objectSlice(bookmark, [ 'link', 'name', 'description', 'code', '_id' ]);
     }
 
     $scope.$watch('bookmarks', function (bookmarks) {
         //console.log("bookmarks modified");
         $scope.tags = computeTags(bookmarks);
-	$scope.haveDescriptions = bookmarks.filter(function (b) { return b.description; }).length > 0;
+	$scope.haveDescriptions = bookmarks.filter(function (b) { return b.name || b.description; }).length > 0;
     }, true);
 
     $scope.$watch('toImport', function (html) {

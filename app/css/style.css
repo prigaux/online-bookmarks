@@ -45,12 +45,17 @@ ul.bookmark {
     font-size: 140%;
 }
 .bookmark-item .description {
-	margin-top: 0.8em;
-  margin-bottom: 0.5em;
+    margin-top: 0.8em;
+    margin-bottom: 0.5em;
 }
 
 .bookmark-item .title a {
-	margin: 0 0.2em;
+    margin: 0 0.2em;
+    vertical-align: bottom;
+}
+.bookmark-item .title small {
+    font-size: 65%;
+    vertical-align: middle;
 }
 .bookmark-item .title a,
 .bookmark-item .title small {
@@ -59,7 +64,6 @@ ul.bookmark {
     max-width: 30em;
     display: inline-block;
     overflow: hidden;
-    vertical-align: bottom;
 }
 
 .myTag {
@@ -84,7 +88,7 @@ ul.bookmark {
 }
 
 @media (min-width: 970px) and (max-width: 1170px) {
-    .bookmark-item .title a {
+    .bookmark-item .title a, .bookmark-item .title small {
         max-width: 24em;
     }
 }
