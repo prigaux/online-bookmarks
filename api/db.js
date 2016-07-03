@@ -27,7 +27,7 @@ exports.get = (_id) => (
 );
 
 exports.find = (criteria) => (
-    collection().find(criteria).toArray()
+    collection().find(criteria).sort({ modifyTimestamp: -1 }).toArray()
 );
 
 exports.delete = (_id) => (
