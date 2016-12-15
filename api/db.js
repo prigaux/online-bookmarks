@@ -18,16 +18,16 @@ const exists = (criteria) => (
     collection().find(criteria).limit(1).next()
 );
 
-const is_code_in_use = (bookmark) => (
-    bookmark.code ? exists({ code: bookmark.code, _id: { "$ne": id(bookmark._id) } }) : Promise.resolve(false)
-);
-
 exports.get = (_id) => (
     collection().find({ _id: id(_id) }).limit(1).next()
 );
 
 exports.find = (criteria) => (
     collection().find(criteria).sort({ modifyTimestamp: -1 }).toArray()
+);
+
+exports.findOne = (criteria) => (
+    collection().findOne(criteria)
 );
 
 exports.delete = (_id) => (
@@ -38,17 +38,10 @@ exports.delete = (_id) => (
 );
 
 exports.save = (bookmark) => {
-    return is_code_in_use(bookmark).then(in_use => {
-        if (in_use) {
-            console.error("code already in use", bookmark);
-            return Promise.reject("code already in use");
-        } else {
-            console.log("saving in DB:", bookmark);
-            bookmark.modifyTimestamp = new Date();
-            bookmark._id = id(bookmark._id);
-            return collection().updateOne({ _id: bookmark._id }, bookmark, {upsert: true}).then(r => bookmark);
-        }
-    });
+    console.log("saving in DB:", bookmark);
+    bookmark.modifyTimestamp = new Date();
+    bookmark._id = id(bookmark._id);
+    return collection().updateOne({ _id: bookmark._id }, bookmark, {upsert: true}).then(r => bookmark);
 };
 
 exports.init = () => {
@@ -57,7 +50,7 @@ exports.init = () => {
     }).then(() => {
         return collection().createIndex({ user: 1 });
     }).then(() => {
-        return collection().createIndex({ code: 1 });
+        return collection().createIndex({ publicName: 1 }, { unique: true, sparse: true });
     }).catch((error) => {
         console.error(error);
         process.exit(1);

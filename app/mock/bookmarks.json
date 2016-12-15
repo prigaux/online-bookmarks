@@ -13,7 +13,8 @@
 	"description": "#SocialNetwork"
     },
     {
-  "code": "gplus",
+        "isPublic": true,
+        "name": "gplus",
 	"link": "http://plus.google.com",
 	"description": "#SocialNetwork"
     },

@@ -74,6 +74,7 @@ function parseBookmark(bookmark) {
     bookmark = angular.copy(bookmark);
     bookmark.desc = parseDescription(bookmark.description);
     bookmark.addtext = {};
+    bookmark.isPublic = bookmark.showPublicOption = !!bookmark.publicName;
     return bookmark;
 }
 
@@ -99,8 +100,9 @@ function computeHashes(bookmarks) {
 }
 
 app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
-    var emptyBookmark = { link: "", description: "", addtext: {} };
+    var emptyBookmark = { link: "", description: "", isPublic: false, addtext: {} };
 
+    $scope.publicUrlPrefix = 'https://signets-test.univ-paris1.fr/public-name/';
     $scope.bookmarks = [];
     $scope.bookmark = angular.copy(emptyBookmark);
     $scope.search = {};
@@ -110,7 +112,9 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
         return link.match(/^https?:/) ? link : "http://" + link;
     }
     function toWS(bookmark) {
-        return objectSlice(bookmark, [ 'link', 'name', 'description', 'code', '_id' ]);
+        var o = objectSlice(bookmark, [ 'link', 'name', 'description', '_id' ]);
+        if (bookmark.isPublic) o.publicName = bookmark.name;
+        return o;
     }
     function computeBookmarksToDisplay(bookmarks, search) {
         var l = bookmarks;
