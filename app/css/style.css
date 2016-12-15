@@ -70,8 +70,6 @@ ul.bookmark {
   margin-right: 4px; font-size: 100%;
 }
 
-.editBookmark input,
-.editBookmark textarea,
 .addBookmark input,
 .addBookmark textarea {
 	 margin: 0.6em 0;
