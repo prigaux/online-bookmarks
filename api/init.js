@@ -6,9 +6,8 @@ let byPublicName = require('./byPublicName');
 
 function express_auth(req, res, next) {
   let id = req.header('REMOTE_USER');
-  let mail = req.header('mail');
   if (!id) res.json({error: "missing auth"});
-  if (id) req.user = { id, mail };
+  if (id) req.user = { id };
   next();
 }
 
