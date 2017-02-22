@@ -6,6 +6,15 @@ function objectSlice(o, fields) {
     return r;
 }
 
+function flatten(o) {
+    var l = [];
+    angular.forEach(o, function (v, id) {
+        v.id = id;
+        l.push(v);
+    });
+    return l;
+}
+
 function toTitleCase(str) {
     return str.replace(/(?:^|\s)\w/g, function(match) {
         return match.toUpperCase();
@@ -102,7 +111,7 @@ function computeHashes(bookmarks) {
 app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
     var emptyBookmark = { link: "", description: "", isPublic: false, addtext: {} };
 
-    $scope.publicUrlPrefix = 'https://signets-test.univ-paris1.fr/public-name/';
+    $scope.publicUrlPrefix = publicUrlPrefix;
     $scope.bookmarks = [];
     $scope.bookmark = angular.copy(emptyBookmark);
     $scope.search = {};
@@ -112,7 +121,7 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
         return link.match(/^https?:/) ? link : "http://" + link;
     }
     function toWS(bookmark) {
-        var o = objectSlice(bookmark, [ 'link', 'name', 'description', '_id' ]);
+        var o = objectSlice(bookmark, [ 'link', 'name', 'description' ]);
         if (bookmark.isPublic) o.publicName = bookmark.name;
         return o;
     }
@@ -148,18 +157,31 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
     $scope.computeExport = function () {
         return "data:text/html;charset=utf-8," + $window.encodeURIComponent(exportNetscapeBookmarks($scope.bookmarks));
     }
-    
-    $http.get('api').success(function(data) {
-	$scope.bookmarks = data.map(parseBookmark);
-    });
+
+    function handleErr(f) {
+        return function (err, v) {
+            if (err) {
+                alert(JSON.stringify(err));
+            } else {
+                $scope.$apply(function () { f(v); });
+            }
+        };
+    }
+
+    var restdb = restdb_init(restdbConf);
+
+    restdb.get(restdbPath, { allowRedirect: true }, handleErr(function(data) {
+	    $scope.bookmarks = flatten(data).map(parseBookmark);
+    }));
 
     $scope.addBookmark = function(bookmark) {
         bookmark.link = normalizeLink(bookmark.link);
-        $http.post('api', toWS(bookmark)).success(function(bookmark) {
+        restdb.add(restdbPath, toWS(bookmark), {}, handleErr(function(resp) {
+            bookmark.id = resp.id;
 	    $scope.bookmarks.unshift(parseBookmark(bookmark));
             // empty the form:
 	    angular.copy(emptyBookmark, bookmark);
-        });
+        }));
     }
     $scope.editBookmark = function (bookmark) {
 	delete bookmark.backup;
@@ -174,14 +196,14 @@ app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
         bookmark.link = normalizeLink(bookmark.link);
 	bookmark.desc = parseDescription(bookmark.description);
 
-        $http.post('api', toWS(bookmark)).success(function() {
+        restdb.set(restdbPath + "/" + bookmark.id, toWS(bookmark), {}, handleErr(function() {
 	    bookmark.edit = false;
-        });
+        }));
     };
     $scope.deleteBookmark = function(bookmark) {
-        $http.delete('api/' + bookmark._id).success(function() {
+        restdb.set(restdbPath + '/' + bookmark.id, null, {}, handleErr(function() {
 	    $scope.bookmarks = $scope.bookmarks.filter(function (b) { return b !== bookmark; });
-        });
+        }));
     }
 
 });

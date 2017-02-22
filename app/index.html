@@ -10,13 +10,21 @@
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <script>
+       // you need to install esup-restdb
+       var restdbConf = { url: "https://restdb-test.univ-paris1.fr", auth: "shibboleth" };
+       var restdbPath = "/signets/bookmarks/$user";
+       var publicUrlPrefix = 'https://signets-test.univ-paris1.fr/public-name/';
+    </script>
+    <script src="https://restdb-test.univ-paris1.fr/.files/restdb.js"></script>
+
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
   </head>
   
   <body>
-    <script> window.prolongation_ENT_args = { current: "signet" } </script>
+    <script> window.prolongation_ENT_args = { current: "signet", layout_url: "https://restdb-test.univ-paris1.fr/EsupUserApps/layout" } </script>
     <script src="https://ent-test.univ-paris1.fr/ProlongationENT/loader.js"></script>
 
     <div class="container-fluid" ng-controller="BookmarkCtrl">

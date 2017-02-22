@@ -2,7 +2,7 @@
 
 let conf = {
     mongodb: { 
-        url: "mongodb://localhost:27017/signets",
+        url: "mongodb://localhost:27017/restdb-signets",
     },
 };
 
