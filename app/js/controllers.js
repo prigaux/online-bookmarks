@@ -1,6 +1,31 @@
+function simpleCopy(o) {
+    return assign({}, o);
+}
+
+function assign(o, o2) {
+    simpleEachObject(o2, function (k, v) {
+        o[k] = v;
+    });
+    return o;
+}
+
+function simpleEach(a, fn) {
+    var len = a.length;
+    for(var i = 0; i < len; i++) {
+        fn(a[i], i, a);
+    }
+}
+
+function simpleEachObject(o, fn) {
+    for(var k in o) {
+        fn(k, o[k], o);
+    }
+}
+
+
 function objectSlice(o, fields) {
     var r = {};
-    angular.forEach(fields, function (field) {
+    fields.forEach(function (field) {
         r[field] = o[field];
     });
     return r;
@@ -8,7 +33,7 @@ function objectSlice(o, fields) {
 
 function flatten(o) {
     var l = [];
-    angular.forEach(o, function (v, id) {
+    simpleEachObject(o, function (id, v) {
         v.id = id;
         l.push(v);
     });
@@ -46,7 +71,7 @@ function parseNetscapeBookmarks(html) {
                 path = path.concat(["#" + toTitleCase(first.innerText).replace(/\s/g, '')]);
             }
         }
-        angular.forEach(elt.children, function (sub) {
+        simpleEach(elt.children, function (sub) {
             extractRec(path, sub);
         });
     }
@@ -80,10 +105,10 @@ function parseDescription(description) {
 }
 
 function parseBookmark(bookmark) {
-    bookmark = angular.copy(bookmark);
     bookmark.desc = parseDescription(bookmark.description);
-    bookmark.addtext = {};
+    bookmark.addtext = [];
     bookmark.isPublic = bookmark.showPublicOption = !!bookmark.publicName;
+    bookmark.edit = false;
     return bookmark;
 }
 
@@ -102,108 +127,134 @@ function computeHash(bookmark) {
 }
 function computeHashes(bookmarks) {
     var h = {};
-    angular.forEach(bookmarks, function (bookmark) {
+    bookmarks.forEach(function (bookmark) {
         h[computeHash(bookmark)] = bookmark;
     });
     return h;
 }
 
-app.controller('BookmarkCtrl', function($scope, $http, $location, $window) {
-    var emptyBookmark = { link: "", description: "", isPublic: false, addtext: {} };
-
-    $scope.publicUrlPrefix = publicUrlPrefix;
-    $scope.bookmarks = [];
-    $scope.bookmark = angular.copy(emptyBookmark);
-    $scope.search = {};
-    $scope.maxBookmarks = 40;
-
-    function normalizeLink(link) {
+function normalizeLink(link) {
         return link.match(/^https?:/) ? link : "http://" + link;
-    }
-    function toWS(bookmark) {
+}
+function toWS(bookmark) {
         var o = objectSlice(bookmark, [ 'link', 'name', 'description' ]);
         if (bookmark.isPublic) o.publicName = bookmark.name;
         return o;
-    }
-    function computeBookmarksToDisplay(bookmarks, search) {
-        var l = bookmarks;
- 	var regex = new RegExp(search, "i");
- 	if (search) l = l.filter(function (bm) {
-	    return regex.test(bm.name) || regex.test(bm.link) || regex.test(bm.description);
-	});
-        $scope.bookmarksToDisplay = l.slice(0, $scope.maxBookmarks);
-	$scope.allBookmarksDisplayed = l.length <= $scope.maxBookmarks;
-    }
+}
 
-    $scope.$watch('bookmarks', function (bookmarks) {
-        //console.log("bookmarks modified");
-        $scope.tags = computeTags(bookmarks);
-	$scope.haveDescriptions = bookmarks.filter(function (b) { return b.name || b.description; }).length > 0;
-	computeBookmarksToDisplay(bookmarks, $scope.search.text);
-    }, true);
+function handleErr(f) {
+    return function (err, v) {
+        if (err) {
+            alert(JSON.stringify(err));
+        } else {
+            f(v);
+        }
+    };
+}
 
-    $scope.$watch('search.text', function (search_text) {
-	computeBookmarksToDisplay($scope.bookmarks, search_text);
-    });
+var restdb = restdb_init(restdbConf);
 
-    $scope.$watch('toImport', function (html) {
-        //console.log("importing", html);
-        var exists = computeHashes($scope.bookmarks);
-        parseNetscapeBookmarks(html).filter(function (b) {
-            return !exists[computeHash(b)];
-        }).forEach($scope.addBookmark);
-    });
+function emptyBookmark() {
+    return { link: "", description: "", isPublic: false, addtext: [], edit: false };
+}
 
-    $scope.computeExport = function () {
-        return "data:text/html;charset=utf-8," + $window.encodeURIComponent(exportNetscapeBookmarks($scope.bookmarks));
-    }
-
-    function handleErr(f) {
-        return function (err, v) {
-            if (err) {
-                alert(JSON.stringify(err));
-            } else {
-                $scope.$apply(function () { f(v); });
-            }
-        };
-    }
-
-    var restdb = restdb_init(restdbConf);
-
-    restdb.get(restdbPath, { allowRedirect: true }, handleErr(function(data) {
-	    $scope.bookmarks = flatten(data).map(parseBookmark);
-    }));
-
-    $scope.addBookmark = function(bookmark) {
-        bookmark.link = normalizeLink(bookmark.link);
+var methods = {
+    addBookmark: function(link) {
+        var app = this;
+        var bookmark = emptyBookmark();
+        bookmark.link = normalizeLink(link);
         restdb.add(restdbPath, toWS(bookmark), {}, handleErr(function(resp) {
             bookmark.id = resp.id;
-	    $scope.bookmarks.unshift(parseBookmark(bookmark));
+	    app.bookmarks.unshift(parseBookmark(bookmark));
             // empty the form:
-	    angular.copy(emptyBookmark, bookmark);
+	    app.link_to_add = "";
         }));
-    }
-    $scope.editBookmark = function (bookmark) {
+    },
+    editBookmark: function (bookmark) {
 	delete bookmark.backup;
-	bookmark.backup = angular.copy(bookmark);
+	bookmark.backup = simpleCopy(bookmark);
 	bookmark.edit = true;
-    }
-    $scope.cancelBookmark = function (bookmark) {
-	angular.copy(bookmark.backup, bookmark);
-    }
-
-    $scope.saveBookmark = function (bookmark) {
+    },
+    cancelBookmark: function (bookmark) {
+	assign(bookmark, bookmark.backup);
+        delete bookmark.backup;
+    },
+    saveBookmark: function (bookmark) {
         bookmark.link = normalizeLink(bookmark.link);
 	bookmark.desc = parseDescription(bookmark.description);
 
         restdb.set(restdbPath + "/" + bookmark.id, toWS(bookmark), {}, handleErr(function() {
 	    bookmark.edit = false;
         }));
-    };
-    $scope.deleteBookmark = function(bookmark) {
+    },
+    deleteBookmark: function(bookmark) {
         restdb.set(restdbPath + '/' + bookmark.id, null, {}, handleErr(function() {
-	    $scope.bookmarks = $scope.bookmarks.filter(function (b) { return b !== bookmark; });
+	    app.bookmarks = app.bookmarks.filter(function (b) { return b !== bookmark; });
         }));
-    }
+    },
+
+    exportBookmarks: function (event) {
+        event.target.href = "data:text/html;charset=utf-8," + encodeURIComponent(exportNetscapeBookmarks(this.bookmarks));
+    },
+    
+    toImport: function (html) {
+       //console.log("importing", html);
+        var exists = computeHashes(this.bookmarks);
+        parseNetscapeBookmarks(html).filter(function (b) {
+            return !exists[computeHash(b)];
+        }).forEach(this.addBookmark);
+    },
+
+};
+
+app = new Vue({
+    name: "Main",
+    data: {
+        bookmarks: [],
+        search: "",
+        link_to_add: "",
+        
+        exported: "",
+        loaded: false,
+        
+        maxBookmarks: 40,
+        publicUrlPrefix: publicUrlPrefix,
+    },
+
+    mounted: function() {
+        var app = this;
+        restdb.get(restdbPath, { allowRedirect: true }, handleErr(function(data) {
+	        app.bookmarks = flatten(data).map(parseBookmark);
+            app.loaded = true;
+        }));
+    },
+
+    methods: methods,
+
+    computed: {
+        filteredBookmarks: function() {
+            var l = this.bookmarks;
+ 	    if (this.search) {
+ 	        var regex = new RegExp(this.search, "i");
+                return l.filter(function (bm) {
+	            return regex.test(bm.name) || regex.test(bm.link) || regex.test(bm.description);
+	        });
+            } else {
+                return l;
+            }
+        },
+        bookmarksToDisplay: function() {
+            return this.filteredBookmarks.slice(0, this.maxBookmarks);
+        },
+        allBookmarksDisplayed: function() {
+            return this.filteredBookmarks.length <= this.maxBookmarks;
+        },
+        tags: function() {
+            return computeTags(this.bookmarks);
+        },
+        haveDescriptions: function () {
+            return this.bookmarks.filter(function (b) { return b.name || b.description; }).length > 0;
+        },
+    },
 
 });

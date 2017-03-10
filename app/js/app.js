@@ -1,12 +1,5 @@
 'use strict';
 
-var app = angular.module('app', []);
-
-app.config(['$compileProvider', function($compileProvider) {
-    // needed for exporting our data
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|data):/);
-}]);
-
 function insertAtCursor(elt, myValue, withSpace) {
     if (!elt.selectionStart && elt.selectionStart != '0') return;
 
@@ -25,34 +18,32 @@ function insertAtCursor(elt, myValue, withSpace) {
     elt.focus();
 }
 
-app.directive('addtext', function factory() {
-  return {
-    restrict: 'A',
-    scope: {
-      addtext: '='
-    },
-    link: function (scope, element, attrs) {
-      scope.addtext.withSpace = function(txt) {
-          insertAtCursor(element[0], txt, true);
-          element.triggerHandler('input');
-      }
-    }
-  };
+// usage <textarea-with-paste :toadd="a.toadd" v-model="a.a" add-with-space></textarea-with-paste>
+Vue.component('textarea-with-paste', {
+  template: "<textarea ref='input' :value='value' @input='tellParent'></textarea>",
+  props: ['value', 'toadd', 'addWithSpace'],
+  watch: { 'toadd': function (toadd) {
+      var element = this.$refs.input;
+      insertAtCursor(element, toadd[0], this.addWithSpace === '' || this.addWithSpace === 'true');
+      this.tellParent();
+  } },
+  methods: { tellParent: function () { 
+      this.$emit("input", this.$refs.input.value);
+  } },
 });
 
-app.directive('textFileSelect', ['$window', function ($window) {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, el, attr, ctrl) {
-            el.on('change', function (e) {
+// emits 'change' event
+Vue.component('input-text-file', {
+    template: "<input @change='read' style='display: none;' type='file'>",
+    methods: {
+        read: function (e) {
+            var vm = this;
                 var fileReader = new $window.FileReader();
 
                 fileReader.onload = function () {
-                    ctrl.$setViewValue(fileReader.result);
+                    vm.$emit('change', fileReader.result);
                 };                
                 fileReader.readAsText(e.target.files[0]);
-            });
-        }
-    };
-}]);
+        },
+    },
+});

@@ -3,7 +3,7 @@
   "description": "Online bookmarks",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "^1.5.3",
+    "vue": "^2.2.1",
     "bootstrap": "^3.3.6",
     "express": "4.x",
     "mongodb": "^2.1.18"
