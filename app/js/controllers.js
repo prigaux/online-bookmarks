@@ -109,7 +109,7 @@ function parseBookmark(bookmark) {
     bookmark.addtext = [];
     bookmark.isPublic = bookmark.showPublicOption = !!bookmark.publicName;
     bookmark.edit = false;
-    return bookmark;
+    return assign(emptyBookmark(), bookmark);
 }
 
 function computeTags(bookmarks) {
@@ -155,7 +155,7 @@ function handleErr(f) {
 var restdb = restdb_init(restdbConf);
 
 function emptyBookmark() {
-    return { link: "", description: "", isPublic: false, addtext: [], edit: false };
+    return { link: "", name: "", description: "", isPublic: false, addtext: [], edit: false };
 }
 
 var methods = {
