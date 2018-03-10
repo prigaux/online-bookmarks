@@ -22,6 +22,20 @@ function simpleEachObject(o, fn) {
     }
 }
 
+function sortBy(a, prop) {
+    var compareStrings = function(a, b) {
+        if (a < b) {
+          return -1;
+        } else if (a > b) {
+          return 1;
+        } else {
+          return 0;
+        }
+    };  
+    return a.sort(function(a, b) {
+        return compareStrings(a[prop], b[prop]);
+    });
+}
 
 function objectSlice(o, fields) {
     var r = {};
@@ -225,6 +239,7 @@ app = new Vue({
         var app = this;
         restdb.get(restdbPath, { allowRedirect: true }, handleErr(function(data) {
 	        app.bookmarks = flatten(data).map(parseBookmark);
+            sortBy(app.bookmarks, 'modifyTimestamp').reverse();
             app.loaded = true;
         }));
     },
