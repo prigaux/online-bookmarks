@@ -48,7 +48,7 @@
               <div class="description" v-if="bookmark.description">
                 <span v-for="tag in bookmark.desc">
                   <span v-if="tag.tag">
-                    <a @click.prevent="search.text = tag.name" class="label label-info myTag">{{tag.name}}</a>
+                    <a @click.prevent="search = tag.name" class="label label-info myTag">{{tag.name}}</a>
                   </span>
                   <span v-else>
                     {{tag.name}}
