@@ -156,9 +156,14 @@ function toWS(bookmark) {
         return o;
 }
 
-function handleErr(f) {
+function handleErr(f, bookmark) {
     return function (err, v) {
-        if (err) {
+        if (err && err.error === 'Unauthorized') {
+            alert("Votre session a expiré, l'application va redémarrer.");
+            restdb.get(restdbPath, { allowRedirect: true });
+        } else if (err && err.error && err.error.match(/duplicate key error/)) {
+            alert("Le lien public « " + bookmark.name + " » est déjà utilisé, veuillez en choisir un autre.");
+        } else if (err) {
             alert(JSON.stringify(err));
         } else {
             f(v);
@@ -182,7 +187,7 @@ var methods = {
 	    app.bookmarks.unshift(parseBookmark(bookmark));
             // empty the form:
 	    app.link_to_add = "";
-        }));
+        }, bookmark));
     },
     editBookmark: function (bookmark) {
 	delete bookmark.backup;
@@ -199,7 +204,7 @@ var methods = {
 
         restdb.set(restdbPath + "/" + bookmark.id, toWS(bookmark), {}, handleErr(function() {
 	    bookmark.edit = false;
-        }));
+        }, bookmark));
     },
     deleteBookmark: function(bookmark) {
         restdb.set(restdbPath + '/' + bookmark.id, null, {}, handleErr(function() {
