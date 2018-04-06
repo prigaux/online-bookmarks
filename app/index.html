@@ -76,7 +76,7 @@
                     <div class="checkbox" v-if="bookmark.name">
                       <label>
                         <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic">
-                        créer un lien permanent public {{publicUrlPrefix}}{{bookmark.name}}
+                        créer un lien permanent public <span style="white-space: pre">{{publicUrlPrefix}}{{bookmark.name}}</span>
                       </label>
                     </div>
                     <div v-else>
