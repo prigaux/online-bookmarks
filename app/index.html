@@ -39,7 +39,7 @@
             <div v-if="!bookmark.edit">
               <span class="title">
                 <span class="glyphicon glyphicon-link"></span>
-                <a :href="bookmark.isPublic ? publicUrlPrefix + bookmark.name : bookmark.link" target="_blank">{{bookmark.name || bookmark.link}}</a>
+                <a :href="bookmark.isPublic && bookmark.name ? publicUrlPrefix + bookmark.name : bookmark.link" target="_blank">{{bookmark.name || bookmark.link}}</a>
                 <small>{{bookmark.name && bookmark.link}}</small>
                 <span class="glyphicon glyphicon-pencil" @click="editBookmark(bookmark)"></span>
                 <span class="glyphicon glyphicon-remove" @click="deleteBookmark(bookmark)"></span>
@@ -73,11 +73,14 @@
 
                   <div class="form-group" v-show="bookmark.showPublicOption">
                     <label for="public">Lien public ?</label>
-                    <div class="checkbox">
+                    <div class="checkbox" v-if="bookmark.name">
                       <label>
                         <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic">
                         créer un lien permanent public {{publicUrlPrefix}}{{bookmark.name}}
                       </label>
+                    </div>
+                    <div v-else>
+                        La fonctionnalité « lien public » utilise le nom. Veuillez en fournir un.
                     </div>
                   </div>
                   
