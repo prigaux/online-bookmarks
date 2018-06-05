@@ -10,10 +10,6 @@
     padding-bottom: 1em;
 }
 
-.menu h2 {
-    margin-top: 1em;
-}
-
 .menu {
 	padding-bottom: 2em;
 	background-color: #f7f5fa;
@@ -41,7 +37,7 @@ ul.bookmark {
 
 .bookmark-item {
 	background-color: #f7f5fa;
-	padding: 0.5em 1em;
+	padding: 0.5em 1em 0.5em 0;
 	margin-bottom: 5px;
 	border-radius: 5px;
         max-width: 100%;
@@ -75,6 +71,21 @@ ul.bookmark {
 
 .myTag {
   margin-right: 4px; font-size: 100%;
+}
+
+.selectedTag {
+    background: #aa8700;
+}
+
+.listOfTags {
+    margin-top: 0.5rem;
+}
+.listOfTags > span {
+    display: inline-block;
+    line-height: 2.2em;
+}
+.importBookmarks {
+    margin-top: 3rem;
 }
 
 .addBookmark input,

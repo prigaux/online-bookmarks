@@ -32,17 +32,29 @@
       <div class="row">
 
         <div class="col-md-8 col-md-push-4 bookmarks">
+
+          <h2>Ajouter un signet</h2>
+          <form class="addBookmark">
+            <input type="text" class="form-control" placeholder="http://..." v-model="link_to_add">
+
+            <button type="submit" class="btn btn-primary" @click.prevent="addBookmark(link_to_add)" v-show="link_to_add">
+              <span class="glyphicon glyphicon-plus"></span>
+              Ajouter</button>
+          </form>
+                  
           <div v-if="bookmarks.length == 0" class="alert alert-info">
             Vous n'avez pas de signets.
+          </div>
+          <div v-else>
+              <h2>Mes signets</h2>
           </div>
           <div class="bookmark-item" v-for="bookmark in bookmarksToDisplay">
             <div v-if="!bookmark.edit">
               <span class="title">
-                <span class="glyphicon glyphicon-link"></span>
+                <span style="float: right" class="glyphicon glyphicon-remove" @click="deleteBookmark(bookmark)"></span>
+                <span style="float: right" class="glyphicon glyphicon-pencil" @click="editBookmark(bookmark)"></span>
                 <a :href="bookmark.isPublic && bookmark.name ? publicUrlPrefix + bookmark.name : bookmark.link" target="_blank">{{bookmark.name || bookmark.link}}</a>
-                <small>{{bookmark.name && bookmark.link}}</small>
-                <span class="glyphicon glyphicon-pencil" @click="editBookmark(bookmark)"></span>
-                <span class="glyphicon glyphicon-remove" @click="deleteBookmark(bookmark)"></span>
+                <small v-if="bookmark.name">| {{bookmark.link}}</small>
               </span>
 
               <div class="description" v-if="bookmark.description">
@@ -123,23 +135,22 @@
         <div class="col-md-4 col-md-pull-8 menu">
 
           <div v-if="bookmarks.length > 1">
-            <h2><span class="glyphicon glyphicon-search"></span> Filtrer les signets</h2>
+            <h2>Filtrer les signets</h2>
             <form>
               <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
             </form>
+            <div class="listOfTags">
+                <span v-for="tag in tags">
+                    <a @click.prevent="search = tag" class="label label-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
+                </span>
+            </div>
+
           </div>
 
-          <h2><span class="glyphicon glyphicon-floppy-save"></span> Ajouter un signet</h2>
-          <form class="addBookmark">
-            <input type="text" class="form-control" placeholder="http://..." v-model="link_to_add">
-
-            <button type="submit" class="btn btn-primary" @click.prevent="addBookmark(link_to_add)" v-show="link_to_add">
-              <span class="glyphicon glyphicon-plus"></span>
-              Ajouter</button>
-
+          <form class="importBookmarks">
             <label class="btn btn-primary">
               <span class="glyphicon glyphicon-import"></span>
-              Import <input-text-file @change="toImport"></input-text-file>
+              Importer des signets <input-text-file @change="toImport"></input-text-file>
             </label>
           </form>
         </div>
