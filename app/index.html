@@ -141,7 +141,7 @@
             </form>
             <div class="listOfTags">
                 <span v-for="tag in tags">
-                    <a @click.prevent="search = tag" class="label label-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
+                    <a @click.prevent="search = (search === tag ? '' : tag)" class="label label-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
                 </span>
             </div>
 
