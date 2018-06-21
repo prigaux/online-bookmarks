@@ -38,7 +38,7 @@ Vue.component('input-text-file', {
     methods: {
         read: function (e) {
             var vm = this;
-                var fileReader = new $window.FileReader();
+                var fileReader = new window.FileReader();
 
                 fileReader.onload = function () {
                     vm.$emit('change', fileReader.result);

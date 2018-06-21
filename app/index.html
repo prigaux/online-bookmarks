@@ -37,7 +37,7 @@
           <form class="addBookmark">
             <input type="text" class="form-control" placeholder="http://..." v-model="link_to_add">
 
-            <button type="submit" class="btn btn-primary" @click.prevent="addBookmark(link_to_add)" v-show="link_to_add">
+            <button type="submit" class="btn btn-primary" @click.prevent="addSimpleBookmark(link_to_add)" v-show="link_to_add">
               <span class="glyphicon glyphicon-plus"></span>
               Ajouter</button>
           </form>

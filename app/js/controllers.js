@@ -178,10 +178,14 @@ function emptyBookmark() {
 }
 
 var methods = {
-    addBookmark: function(link) {
-        var app = this;
+    addSimpleBookmark: function(link) {
         var bookmark = emptyBookmark();
-        bookmark.link = normalizeLink(link);
+        bookmark.link = link;
+        this.addBookmark(bookmark);
+    },
+    addBookmark: function(bookmark) {
+        var app = this;
+        bookmark.link = normalizeLink(bookmark.link);
         restdb.add(restdbPath, toWS(bookmark), {}, handleErr(function(resp) {
             bookmark.id = resp.id;
 	    app.bookmarks.unshift(parseBookmark(bookmark));
