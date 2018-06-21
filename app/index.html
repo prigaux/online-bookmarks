@@ -136,9 +136,9 @@
 
           <div>
             <h2>Filtrer les signets</h2>
-            <form>
-              <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
-            </form>
+
+            <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
+            
             <div class="listOfTags">
                 <span v-for="tag in tags">
                     <a @click.prevent="search = (search === tag ? '' : tag)" class="label label-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
