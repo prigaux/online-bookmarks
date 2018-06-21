@@ -134,7 +134,6 @@
 
         <div class="col-md-4 col-md-pull-8 menu">
 
-          <div>
             <h2>Filtrer les signets</h2>
 
             <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
@@ -145,21 +144,20 @@
                 </span>
             </div>
 
-          </div>
+        </div>
+        
+      </div>
+     
+      <a class="btn btn-default export" @click="exportBookmarks" href="#" download="bookmarks.html" v-show="bookmarks.length > 1">
+        <span class="glyphicon glyphicon-export"></span>
+        Exporter mes signets</a>
 
           <form class="importBookmarks">
-            <label class="btn btn-primary">
+            <label class="btn btn-default">
               <span class="glyphicon glyphicon-import"></span>
               Importer des signets <input-text-file @change="toImport"></input-text-file>
             </label>
           </form>
-        </div>
-        
-      </div>
-
-      <a class="btn btn-primary export" @click="exportBookmarks" href="#" download="bookmarks.html" v-show="bookmarks.length > 1">
-        <span class="glyphicon glyphicon-export"></span>
-        Export</a>
       
     </div>
     <script> app.$mount(".BookmarksApp"); </script>

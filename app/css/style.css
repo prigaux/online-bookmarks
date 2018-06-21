@@ -84,16 +84,18 @@ ul.bookmark {
     display: inline-block;
     line-height: 2.2em;
 }
-.importBookmarks {
-    margin-top: 3rem;
-}
 
 .addBookmark input,
 .addBookmark textarea {
 	 margin: 0.6em 0;
 }
 
-.export {
+
+
+
+
+.export, .importBookmarks {
+    margin-left: 1rem;
     float: right;
 }
 
