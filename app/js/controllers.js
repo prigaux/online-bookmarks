@@ -121,7 +121,7 @@ function parseDescription(description) {
 function parseBookmark(bookmark) {
     bookmark.desc = parseDescription(bookmark.description);
     bookmark.addtext = [];
-    bookmark.isPublic = bookmark.showPublicOption = !!bookmark.publicName;
+    bookmark.isPublic = !!bookmark.publicName;
     bookmark.edit = false;
     return assign(emptyBookmark(), bookmark);
 }

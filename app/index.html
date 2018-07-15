@@ -83,7 +83,7 @@
                     <input type="text" class="form-control" placeholder="Nom" v-model="bookmark.name">
                   </div>
 
-                  <div class="form-group" v-show="bookmark.showPublicOption">
+                  <div class="form-group">
                     <label for="public">Lien court</label>
                     <div class="checkbox" v-if="bookmark.name">
                       <label>
@@ -114,8 +114,6 @@
                   <span class="glyphicon glyphicon-pencil"></span>
                   Sauvegarder</button>
                 <button type="submit" class="btn btn-default" @click.prevent="cancelBookmark(bookmark)">Annuler</button>
-
-                <button type="submit" class="btn btn-default" @click.prevent="bookmark.showPublicOption = true" v-show="!bookmark.showPublicOption">Options</button>
                 
               </form>
             </div>
