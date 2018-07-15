@@ -126,6 +126,10 @@ function parseBookmark(bookmark) {
     return assign(emptyBookmark(), bookmark);
 }
 
+function localeSort(l) {
+    return l.sort(function (a, b) { return a.localeCompare(b) });
+}
+
 function computeTags(bookmarks) {
     var l = {};
     bookmarks.forEach(function (bookmark) {
@@ -133,7 +137,7 @@ function computeTags(bookmarks) {
             if (e.tag) l[e.name] = true;
         });
     });
-    return Object.keys(l);
+    return localeSort(Object.keys(l));
 }
 
 function computeHash(bookmark) {
