@@ -97,16 +97,15 @@
                   </div>                  
                   
                   <div class="form-group">
-                    <label for="public">Lien court</label>
-                    <div class="checkbox" v-if="bookmark.name">
+                    <div class="checkbox" :class="{ disabled: !bookmark.name }">
                       <label>
-                        <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic">
-                        créer un lien permanent public <span style="white-space: pre">{{publicUrlPrefix}}{{bookmark.name}}</span>
+                        <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic" :disabled="!bookmark.name">
+                        créer un lien court public <span style="white-space: pre" v-if="bookmark.name">{{publicUrlPrefix}}{{bookmark.name}}</span>
                       </label>
                     </div>
-                    <div v-else>
-                        La fonctionnalité « lien court » utilise le nom. Veuillez en fournir un.
-                    </div>
+                    <span v-if="!bookmark.name">
+                        Pour utiliser la fonctionnalité « lien court », veuillez fournir un « Nom »
+                    </span>
                   </div>
                 </div>
 
