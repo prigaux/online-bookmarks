@@ -84,19 +84,6 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="public">Lien court</label>
-                    <div class="checkbox" v-if="bookmark.name">
-                      <label>
-                        <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic">
-                        créer un lien permanent public <span style="white-space: pre">{{publicUrlPrefix}}{{bookmark.name}}</span>
-                      </label>
-                    </div>
-                    <div v-else>
-                        La fonctionnalité « lien court » utilise le nom. Veuillez en fournir un.
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
                     <label for="description">Description</label>
                     <textarea-with-paste class="form-control" :toadd="bookmark.addtext" add-with-space placeholder="Décrit le site avec des #Tags..." v-model="bookmark.description">
                     </textarea-with-paste>
@@ -108,6 +95,19 @@
                       {{tag}}
                     </span>
                   </div>                  
+                  
+                  <div class="form-group">
+                    <label for="public">Lien court</label>
+                    <div class="checkbox" v-if="bookmark.name">
+                      <label>
+                        <input name="public" type="checkbox" placeholder="Public" v-model="bookmark.isPublic">
+                        créer un lien permanent public <span style="white-space: pre">{{publicUrlPrefix}}{{bookmark.name}}</span>
+                      </label>
+                    </div>
+                    <div v-else>
+                        La fonctionnalité « lien court » utilise le nom. Veuillez en fournir un.
+                    </div>
+                  </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary" @click.prevent="saveBookmark(bookmark)">
