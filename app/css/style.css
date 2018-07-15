@@ -1,52 +1,56 @@
-.BookmarksApp {
-  display: none;
+body {
+    line-height: 1.1em;
+    color: #666;
+    font-family: "Helvetica Neue", Arial,sans-serif;
 }
+
+.checkbox.disabled {
+    color: #95a1ba;
+}
+
+.BookmarksApp {
+    display: none;
+}
+
 .BookmarksApp.loaded {
-  display: block;
+    display: block;
 }
 
 .container-fluid {
-    max-width: 1200px;
+    max-width: 1400px;
     padding-bottom: 1em;
 }
 
 .menu {
-	padding-bottom: 2em;
-	background-color: #f7f5fa;
-	border-radius: 5px;
+    padding-bottom: 2em;
+    background-color: #fff;
+    border-radius: 5px;
 }
 
 .bookmarks {
     padding-left: 2em;
+    padding-bottom: 2em;
 }
+
 @media (max-width: 970px) {
     .bookmarks {
         padding: 0;
     }
 }
 
-.bookmark-item .title .glyphicon-pencil,
-.bookmark-item .title .glyphicon-trash {
-    padding-left: 1em;
-}
-
-ul.bookmark {
-	margin-left: 28px;
-	margin-top: 5px;
-}
-
 .bookmark-item {
-	background-color: #f7f5fa;
-	padding: 0.5em 1em 0.5em 0;
-	margin-bottom: 5px;
-	border-radius: 5px;
-        max-width: 100%;
-        overflow: hidden;
+    background-color: #f7f5fa;
+    padding: 0.5em 1em 0.5em 0;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .bookmark-item .title {
     font-size: 140%;
 }
+
 .bookmark-item .description {
     margin-top: 0.8em;
     margin-bottom: 0.5em;
@@ -56,12 +60,13 @@ ul.bookmark {
     margin: 0 0.2em;
     vertical-align: bottom;
 }
+
 .bookmark-item .title small {
     font-size: 65%;
-    vertical-align: middle;
+    vertical-align: bottom;
 }
-.bookmark-item .title a,
-.bookmark-item .title small {
+
+.bookmark-item .title a,.bookmark-item .title small {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 30em;
@@ -70,7 +75,8 @@ ul.bookmark {
 }
 
 .myTag {
-  margin-right: 4px; font-size: 100%;
+    margin-right: 4px;
+    font-size: 100%;
 }
 
 .selectedTag {
@@ -80,19 +86,15 @@ ul.bookmark {
 .listOfTags {
     margin-top: 0.5rem;
 }
+
 .listOfTags > span {
     display: inline-block;
     line-height: 2.2em;
 }
 
-.addBookmark input,
-.addBookmark textarea {
-	 margin: 0.6em 0;
+.addBookmark input,.addBookmark textarea {
+    margin: 0.6em 0;
 }
-
-
-
-
 
 .export, .importBookmarks {
     margin-left: 1rem;
@@ -109,4 +111,269 @@ ul.bookmark {
     .bookmark-item .title a, .bookmark-item .title small {
         max-width: 24em;
     }
+}
+
+.BookmarksApp.loaded {
+    display: block;
+    margin-top: 20px;
+}
+
+a {
+    font-weight: normal;
+}
+
+a.label:focus, a.label:hover {
+    color: blue
+}
+
+.btn {
+    padding: 3px 12px;
+    font-size: 12px;
+}
+
+.bookmarks .btn {
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding-right: 15px
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #20558a;
+    border: 1px solid #00326e;
+    margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #1f6fbe;
+    background-color: #0b5ba8;
+    border: 1px solid #0c82f9
+}
+
+.btn-default {
+    border-color: #aaa;
+    color: #555;
+}
+
+.btn-default:hover {
+    background-color: #d8b252;
+    color: #222;
+    border-color: #999;
+}
+
+h2 {
+    font-family: "Century Gothic", sans-serif;
+    font-weight: normal;
+    text-rendering: optimizelegibility;
+    font-size: 21px;
+}
+
+.bookmarks h2 {
+    color: #9f6c07;
+    color: #555;
+}
+
+.menu {
+    background-color: none;
+}
+
+.menu .form-control {
+    max-width: 300px;
+}
+
+.menu .form-control:focus {
+    border: 1px solid #d5dcea;
+    border: 1px solid #95a7cb;
+}/*---- Forms ----*/.form-control {
+    box-shadow: none;
+    margin-bottom: 38px;
+    height: 30px;
+}/* Form SAISIR */.addBookmark input {
+    border-bottom: 2px solid #d8b252;
+    margin-bottom: 38px;
+    max-width: 700px;
+}
+
+.addBookmark input:focus {
+    border-color: #c89108;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}/*---- TAG ----*/.label-info {
+    background: none;
+    color: #20558a;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 3px;
+}/*-- TAGS à gauche --*/.listOfTags {
+    margin-bottom: 55px;
+}
+
+.listOfTags .label-info {
+    background-color: rgb(222, 228, 240);
+    border: 1px solid #b5c1da;
+    color: #00326e;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 3px;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.listOfTags .label-info:hover {
+    border: 1px solid #6f90b8;
+    background-color: #f5c95c;
+    border: 1px solid #c89108;
+    color: #222
+}
+
+.listOfTags .label-info.selectedTag {
+    background-color: #f5c95c;
+    border: 1px solid #c89108;
+}
+
+.listOfTags .label-info.selectedTag:hover {
+    border: 1px solid #b5c1da;
+    background-color: white;
+}/*- Affichage des signets -*/.bookmark-item {
+    font-size: 13px;
+    background-color: #fff;
+    padding: 0em 0em 0.5em 0;
+    padding: 0.7em 0em 0.6em 0;
+    border-radius: 0px;
+    max-width: 100%;
+    border-bottom: 1px #666 dotted;
+    margin-bottom: 0px;
+}
+
+.bookmark-item .glyphicon {
+    font-size: 15px;
+    color: #999;
+    padding: 2px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    margin-right: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bookmark-item .glyphicon:hover {
+    cursor: pointer;
+    background-color: #e55302;
+    color: white !important;
+}
+
+.bookmark-item .title .glyphicon-pencil:hover {
+    background-color: #c89108;
+}
+
+.bookmark-item .title a {
+    color: #00326e;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.bookmark-item .title a:hover {
+    color: #0d63b9;
+    color: blue
+}/* Cadre pour Editer */.editBookmark {
+    color: #333;
+    padding: 10px;
+    padding-bottom: 0px;
+    background-color: #efefef;
+    border: 1px dotted #999;
+    margin-bottom: 0px;
+}
+
+.editBookmark:hover {
+    border-bottom: 2px solid #c89108;
+}
+
+.editBookmark .form-control {
+    margin-bottom: 15px;
+    border: 1px solid #a9a9a9;
+    font-size: 13px;
+}
+
+.editBookmark .btn .glyphicon-pencil {
+    display: none;
+}
+
+.editBookmark .label-info {
+    padding: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.editBookmark .label-info:hover {
+    background-color: #fff;
+}
+
+.editBookmark .suggestionTag {
+    border-bottom: #666 1px dotted;
+    padding-bottom: 1.1em;
+    margin-bottom: 1.2em;
+}
+
+.editBookmark .suggestionTag span {
+    display: inline-block;
+}
+
+input[type="checkbox"] {
+    margin: 0px 0 0 0;
+}
+
+.editBookmark  .checkbox label> span {
+    color: #0101af  !important
+}
+
+.editBookmark  .checkbox label> span:hover {
+    color: blue !important
+}
+
+.editBookmark .label-info:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+@media (max-width: 970px) {
+    .bookmarks {
+        padding: 15px;
+    }
+}/************  boutons Edit / annule ******/div > .bookmark-item button.btn {
+    float: right;
+    margin: 0px 0px 15px 3px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    font-size: 13px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+div > .bookmark-item button.btn.btn-default {
+    background-color: #d8b252;
+}
+
+div > .bookmark-item button.btn.btn-default:hover {
+    background-color: #ecc258;
+    border-color: #c89108
+}
+
+.btn-default:hover {
+    background-color: #ecc258;
+    border-color: #c89108
+}
+
+.editBookmark .suggestionTag {
+    padding-bottom: .5em;
+    margin-bottom: 1em;
+}
+
+.alert-info {
+    color: #444;
+    background-color: #fccc55;
+    border-color: #999;
+    font-size: 14px;
 }

@@ -89,8 +89,9 @@
                     </textarea-with-paste>
                   </div>
 
-                  <div v-if="tags.length" style="margin-bottom: 2em">
-                    Suggestion de mots clés :
+                  <div v-if="tags.length" class="suggestionTag">
+                   <label> Suggestion de mots clés :</label>
+
                     <span class="label label-info myTag" v-for="tag in tags" @click="bookmark.addtext = [tag]">
                       {{tag}}
                     </span>
