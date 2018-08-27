@@ -1,7 +1,13 @@
+/* css Signets - july 2018 yass */ 
+
 body {
     line-height: 1.1em;
     color: #666;
     font-family: "Helvetica Neue", Arial,sans-serif;
+}
+
+a {
+    font-weight: normal;
 }
 
 .checkbox.disabled {
@@ -118,54 +124,15 @@ body {
     margin-top: 20px;
 }
 
-a {
-    font-weight: normal;
-}
-
 a.label:focus, a.label:hover {
-    color: blue
-}
-
-.btn {
-    padding: 3px 12px;
-    font-size: 12px;
-}
-
-.bookmarks .btn {
-    font-size: 14px;
-    margin-bottom: 25px;
-    padding-right: 15px
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #20558a;
-    border: 1px solid #00326e;
-    margin-bottom: 10px;
-}
-
-.btn-primary:hover {
-    background-color: #1f6fbe;
-    background-color: #0b5ba8;
-    border: 1px solid #0c82f9
-}
-
-.btn-default {
-    border-color: #aaa;
-    color: #555;
-}
-
-.btn-default:hover {
-    background-color: #d8b252;
-    color: #222;
-    border-color: #999;
+    color: #00c;
 }
 
 h2 {
-    font-family: "Century Gothic", sans-serif;
+    font-family: "Century Gothic", arial, sans-serif;
     font-weight: normal;
     text-rendering: optimizelegibility;
-    font-size: 21px;
+    font-size: 22px;
 }
 
 .bookmarks h2 {
@@ -184,11 +151,19 @@ h2 {
 .menu .form-control:focus {
     border: 1px solid #d5dcea;
     border: 1px solid #95a7cb;
-}/*---- Forms ----*/.form-control {
+}
+
+/*---- Forms ----*/
+
+.form-control {
     box-shadow: none;
     margin-bottom: 38px;
     height: 30px;
-}/* Form SAISIR */.addBookmark input {
+}
+
+/* Form SAISIR */
+
+.addBookmark input {
     border-bottom: 2px solid #d8b252;
     margin-bottom: 38px;
     max-width: 700px;
@@ -199,13 +174,22 @@ h2 {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-}/*---- TAG ----*/.label-info {
+}
+
+/*---- TAGs ----*/
+
+
+.label-info {
     background: none;
     color: #20558a;
     font-size: 13px;
     font-weight: normal;
     padding: 3px;
-}/*-- TAGS à gauche --*/.listOfTags {
+}
+
+/*-- TAGS à gauche --*/
+
+.listOfTags {
     margin-bottom: 55px;
 }
 
@@ -223,10 +207,9 @@ h2 {
 }
 
 .listOfTags .label-info:hover {
-    border: 1px solid #6f90b8;
-    background-color: #f5c95c;
+    background-color: #ecc258;
     border: 1px solid #c89108;
-    color: #222
+    color: #222;
 }
 
 .listOfTags .label-info.selectedTag {
@@ -237,7 +220,12 @@ h2 {
 .listOfTags .label-info.selectedTag:hover {
     border: 1px solid #b5c1da;
     background-color: white;
-}/*- Affichage des signets -*/.bookmark-item {
+}
+
+
+/******************- Affichage des signets -***************/  
+
+.bookmark-item {
     font-size: 13px;
     background-color: #fff;
     padding: 0em 0em 0.5em 0;
@@ -277,8 +265,14 @@ h2 {
 
 .bookmark-item .title a:hover {
     color: #0d63b9;
-    color: blue
-}/* Cadre pour Editer */.editBookmark {
+    color: blue;
+    color: #00c;
+}
+
+
+/****************** Cadre Edition Signets ******************/
+
+.editBookmark {
     color: #333;
     padding: 10px;
     padding-bottom: 0px;
@@ -288,12 +282,17 @@ h2 {
 }
 
 .editBookmark:hover {
+    border-color: #c89108;
     border-bottom: 2px solid #c89108;
+}
+
+.checkbox.disabled {
+    color: #666;
 }
 
 .editBookmark .form-control {
     margin-bottom: 15px;
-    border: 1px solid #a9a9a9;
+    border: 1px solid #bbb;
     font-size: 13px;
 }
 
@@ -301,75 +300,123 @@ h2 {
     display: none;
 }
 
-.editBookmark .label-info {
-    padding: 6px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.editBookmark .label-info:hover {
-    background-color: #fff;
-}
-
 .editBookmark .suggestionTag {
-    border-bottom: #666 1px dotted;
-    padding-bottom: 1.1em;
-    margin-bottom: 1.2em;
+    border-bottom: #999 1px dotted;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
 }
 
 .editBookmark .suggestionTag span {
     display: inline-block;
 }
 
+.editBookmark .label-info {
+    padding: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px dotted #999;
+    border-radius: 0px;
+}
+
+.editBookmark .label-info:hover {
+    background-color: initial;
+    color: #00c;
+    cursor: alias;
+    cursor: cell;
+    background-color: white;
+    border-color: #00c;
+    border: 1px solid #009;
+}
+
 input[type="checkbox"] {
     margin: 0px 0 0 0;
 }
 
+
+
+/*** Lien public **/ 
+
+
 .editBookmark  .checkbox label> span {
-    color: #0101af  !important
+    color: #009  !important;
 }
 
 .editBookmark  .checkbox label> span:hover {
-    color: blue !important
-}
-
-.editBookmark .label-info:hover {
-    color: blue;
-    cursor: pointer;
+    color: #00c !important;
 }
 
 @media (max-width: 970px) {
+
     .bookmarks {
         padding: 15px;
     }
-}/************  boutons Edit / annule ******/div > .bookmark-item button.btn {
+}
+
+
+
+
+/*************** B O U T O N S **************/ 
+
+
+.btn {
+    padding: 3px 12px;
+    font-size: 12px;
+}
+
+.bookmarks .btn {
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding-right: 15px
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #20558a;
+    border: 1px solid #00326e;
+    margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #0d63b3;
+    background-color: #0058B0;
+ /* site hover */
+    border: 1px solid #20558a;
+}
+
+.btn-default {
+    border-color: #aaa;
+}
+
+.btn-default:hover {
+    background-color: #d8b252;
+    border-color: #999;
+}
+
+
+
+/**** boutons Edit/annule dans bookmark-item ****/
+
+div > .bookmark-item button.btn {
     float: right;
-    margin: 0px 0px 15px 3px;
-    border-top-right-radius: 0px;
-    border-top-left-radius: 0px;
-    font-size: 13px;
+    margin: 6px 0px 15px 6px;
     padding-right: 30px;
     padding-left: 30px;
+    font-size: 13px;
 }
 
 div > .bookmark-item button.btn.btn-default {
     background-color: #d8b252;
 }
 
-div > .bookmark-item button.btn.btn-default:hover {
+div > .bookmark-item button.btn.btn-default:hover, .btn-default:hover {
     background-color: #ecc258;
     border-color: #c89108
 }
 
-.btn-default:hover {
-    background-color: #ecc258;
-    border-color: #c89108
-}
+ 
 
-.editBookmark .suggestionTag {
-    padding-bottom: .5em;
-    margin-bottom: 1em;
-}
+
+/****** ALERTE ******/ 
 
 .alert-info {
     color: #444;
@@ -377,3 +424,8 @@ div > .bookmark-item button.btn.btn-default:hover {
     border-color: #999;
     font-size: 14px;
 }
+
+
+
+
+
