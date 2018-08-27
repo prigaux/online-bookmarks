@@ -85,7 +85,7 @@
 
                   <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea-with-paste class="form-control" :toadd="bookmark.addtext" add-with-space placeholder="Décrit le site avec des #Tags..." v-model="bookmark.description">
+                    <textarea-with-paste class="form-control" :toadd="bookmark.addtext" add-with-space placeholder="Décrire le site avec des mot clés (#Tags)" v-model="bookmark.description">
                     </textarea-with-paste>
                   </div>
 
@@ -132,7 +132,7 @@
 
         <div class="col-md-4 col-md-pull-8 menu">
 
-            <h2>Filtrer les signets</h2>
+            <h2>Rechercher</h2>
 
             <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
             
