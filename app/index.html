@@ -35,7 +35,7 @@
 
           <h2>Ajouter un signet</h2>
           <form class="addBookmark">
-            <input type="text" class="form-control" placeholder="http://..." v-model="link_to_add">
+            <input type="text" class="form-control" placeholder="http://..." v-model="link_to_add" aria-label="Url à ajouter">
 
             <button type="submit" class="btn btn-primary" @click.prevent="addSimpleBookmark(link_to_add)" v-show="link_to_add">
               <span class="glyphicon glyphicon-plus"></span>
@@ -134,7 +134,7 @@
 
             <h2>Rechercher</h2>
 
-            <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search">
+            <input autofocus type="text" class="form-control" placeholder="Des mots..." v-model="search" aria-label="Mots à rechercher dans vos signets">
             
             <div class="listOfTags">
                 <span v-for="tag in tags">
