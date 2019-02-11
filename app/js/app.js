@@ -47,3 +47,9 @@ Vue.component('input-text-file', {
         },
     },
 });
+
+Vue.directive('auto-focus', {
+    inserted(el) {
+        el.focus();
+    }
+});
