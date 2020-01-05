@@ -103,12 +103,6 @@ a {
     float: right;
 }
 
-@media (max-width: 1170px) {
-    .bookmark-item .title .glyphicon-link {
-        display: none;
-    }
-}
-
 @media (min-width: 970px) and (max-width: 1170px) {
     .bookmark-item .title a, .bookmark-item .title small {
         max-width: 24em;
