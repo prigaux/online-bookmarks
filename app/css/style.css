@@ -14,12 +14,8 @@ a {
     color: #95a1ba;
 }
 
-.BookmarksApp {
+.BookmarksApp:not(.loaded) {
     display: none;
-}
-
-.BookmarksApp.loaded {
-    display: block;
 }
 
 .container-fluid {
