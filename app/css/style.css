@@ -296,10 +296,6 @@ h2 {
     font-size: 13px;
 }
 
-.editBookmark .btn .glyphicon-pencil {
-    display: none;
-}
-
 .editBookmark .suggestionTag {
     border-bottom: #999 1px dotted;
     padding-bottom: .5em;
