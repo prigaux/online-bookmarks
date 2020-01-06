@@ -7,7 +7,7 @@
 
     <title>Mes signets</title>
 
-    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lib.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <script>
@@ -31,7 +31,7 @@
 
       <div class="row">
 
-        <div class="col-md-8 col-md-push-4 bookmarks">
+        <div class="bookmarks">
 
           <h2>Ajouter un signet</h2>
           <form class="addBookmark">
@@ -60,7 +60,7 @@
               <div class="description" v-if="bookmark.description">
                 <span v-for="tag in bookmark.desc">
                   <span v-if="tag.tag">
-                    <a @click.prevent="search = tag.name" class="label label-info myTag">{{tag.name}}</a>
+                    <a @click.prevent="search = tag.name" class="badge badge-info myTag">{{tag.name}}</a>
                   </span>
                   <span v-else>
                     {{tag.name}}
@@ -92,7 +92,7 @@
                   <div v-if="tags.length" class="suggestionTag">
                    <label> Suggestion de mots clés :</label>
 
-                    <span class="label label-info myTag" v-for="tag in tags" @click="bookmark.addtext = [tag]">
+                    <span class="badge badge-info myTag" v-for="tag in tags" @click="bookmark.addtext = [tag]">
                       {{tag}}
                     </span>
                   </div>                  
@@ -128,7 +128,7 @@
          
         </div>
 
-        <div class="col-md-4 col-md-pull-8 menu">
+        <div class="menu">
 
             <h2>Rechercher</h2>
 
@@ -136,13 +136,15 @@
             
             <div class="listOfTags">
                 <span v-for="tag in tags">
-                    <a @click.prevent="search = (search === tag ? '' : tag)" class="label label-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
+                    <a @click.prevent="search = (search === tag ? '' : tag)" class="badge badge-info myTag" :class="{ selectedTag: search === tag }">{{tag}}</a>
                 </span>
             </div>
 
         </div>
         
       </div>
+
+      <div class="import-export">
      
           <a class="btn btn-default export" @click="exportBookmarks" href="#" download="bookmarks.html" v-show="bookmarks.length > 1">
             <span class="glyphicon glyphicon-export"></span>
@@ -154,7 +156,7 @@
               Importer des signets <input-text-file @change="toImport"></input-text-file>
             </label>
           </form>
-      
+      </div>
     </div>
     <script> app.$mount(".BookmarksApp"); </script>
   </body>

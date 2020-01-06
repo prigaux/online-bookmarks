@@ -18,25 +18,26 @@ a {
     display: none;
 }
 
-.container-fluid {
+.BookmarksApp {
+    margin-top: 20px;
     max-width: 1400px;
-    padding-bottom: 1em;
 }
 
-.menu {
-    padding-bottom: 2em;
-    background-color: #fff;
-    border-radius: 5px;
-}
-
-.bookmarks {
-    padding-left: 2em;
+.bookmarks, .menu, .import-export {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-bottom: 2em;
 }
 
-@media (max-width: 970px) {
+@media (min-width: 970px) {
     .bookmarks {
-        padding: 0;
+        order: 2;
+        width: 66%;
+    }
+    .menu {
+        order: 1;
+        width: 33%;
     }
 }
 
@@ -76,6 +77,43 @@ a {
     overflow: hidden;
 }
 
+.glyphicon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-bottom: 2px;
+    vertical-align: middle;
+}
+.glyphicon::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: #333;
+}
+.glyphicon-pencil::before {
+    -webkit-mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/pencil-alt.svg) center / contain no-repeat;  
+    mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/pencil-alt.svg) center / contain no-repeat;  
+}
+.glyphicon-trash::before {
+    -webkit-mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/regular/trash-alt.svg) center / contain no-repeat;  
+    mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/regular/trash-alt.svg) center / contain no-repeat;  
+}
+.glyphicon-plus::before {
+    -webkit-mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/plus.svg) center / contain no-repeat;  
+    mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/plus.svg) center / contain no-repeat;  
+}
+.glyphicon-import::before {
+    -webkit-mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/file-import.svg) center / contain no-repeat;  
+    mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/file-import.svg) center / contain no-repeat;  
+}
+.glyphicon-export::before {
+    -webkit-mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/file-export.svg) center / contain no-repeat;  
+    mask: url(../../node_modules/@fortawesome/fontawesome-free/svgs/solid/file-export.svg) center / contain no-repeat;  
+}
+
+
+
 .myTag {
     margin-right: 4px;
     font-size: 100%;
@@ -98,9 +136,19 @@ a {
     margin: 0.6em 0;
 }
 
-.export, .importBookmarks {
+.import-export {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row-reverse; /* equivalent of text-align: right; */
+}
+
+.import-export > * {
+    /* one day this will be replaced by "gap: 0 1rem" */
     margin-left: 1rem;
-    float: right;
+}
+
+.importBookmarks {
+    display: inline-block;
 }
 
 @media (min-width: 970px) and (max-width: 1170px) {
@@ -109,13 +157,9 @@ a {
     }
 }
 
-.BookmarksApp.loaded {
-    display: block;
-    margin-top: 20px;
-}
-
-a.label:focus, a.label:hover {
+a.badge:focus, a.badge:hover {
     color: #00c;
+    cursor: pointer;
 }
 
 h2 {
@@ -130,10 +174,6 @@ h2 {
     color: #555;
 }
 
-.menu {
-    background-color: none;
-}
-
 .menu .form-control {
     max-width: 300px;
 }
@@ -146,9 +186,7 @@ h2 {
 /*---- Forms ----*/
 
 .form-control {
-    box-shadow: none;
     margin-bottom: 38px;
-    height: 30px;
 }
 
 /* Form SAISIR */
@@ -169,7 +207,7 @@ h2 {
 /*---- TAGs ----*/
 
 
-.label-info {
+.badge-info {
     background: none;
     color: #20558a;
     font-size: 13px;
@@ -183,7 +221,7 @@ h2 {
     margin-bottom: 55px;
 }
 
-.listOfTags .label-info {
+.listOfTags .badge-info {
     background-color: rgb(222, 228, 240);
     border: 1px solid #b5c1da;
     color: #00326e;
@@ -196,18 +234,18 @@ h2 {
     text-decoration: none;
 }
 
-.listOfTags .label-info:hover {
+.listOfTags .badge-info:hover {
     background-color: #ecc258;
     border: 1px solid #c89108;
     color: #222;
 }
 
-.listOfTags .label-info.selectedTag {
+.listOfTags .badge-info.selectedTag {
     background-color: #f5c95c;
     border: 1px solid #c89108;
 }
 
-.listOfTags .label-info.selectedTag:hover {
+.listOfTags .badge-info.selectedTag:hover {
     border: 1px solid #b5c1da;
     background-color: white;
 }
@@ -218,8 +256,7 @@ h2 {
 .bookmark-item {
     font-size: 13px;
     background-color: #fff;
-    padding: 0em 0em 0.5em 0;
-    padding: 0.7em 0em 0.6em 0;
+    padding: 0.6em 0em 0.5em 0;
     border-radius: 0px;
     max-width: 100%;
     border-bottom: 1px #666 dotted;
@@ -227,22 +264,24 @@ h2 {
 }
 
 .bookmark-item .glyphicon {
-    font-size: 15px;
-    color: #999;
-    padding: 2px;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
+    height: 20px;
+    width: 34px;
+    padding: 2px 9px;
     margin-right: 3px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+.bookmark-item .glyphicon::before {
+    background-color: #999;
+}
+.bookmark-item .glyphicon:hover::before {
+    background-color: white !important;
 }
 
 .bookmark-item .glyphicon:hover {
     cursor: pointer;
     background-color: #e55302;
-    color: white !important;
 }
-
 .bookmark-item .title .glyphicon-pencil:hover {
     background-color: #c89108;
 }
@@ -296,7 +335,7 @@ h2 {
     display: inline-block;
 }
 
-.editBookmark .label-info {
+.editBookmark .badge-info {
     padding: 6px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -304,7 +343,7 @@ h2 {
     border-radius: 0px;
 }
 
-.editBookmark .label-info:hover {
+.editBookmark .badge-info:hover {
     background-color: initial;
     color: #00c;
     cursor: alias;
@@ -313,12 +352,6 @@ h2 {
     border-color: #00c;
     border: 1px solid #009;
 }
-
-input[type="checkbox"] {
-    margin: 0px 0 0 0;
-}
-
-
 
 /*** Lien public **/ 
 
@@ -345,8 +378,11 @@ input[type="checkbox"] {
 
 
 .btn {
+    display: inline-block;
     padding: 3px 12px;
     font-size: 12px;
+    font-weight: normal;
+    color: #333;
 }
 
 .bookmarks .btn {
@@ -360,6 +396,10 @@ input[type="checkbox"] {
     background-color: #20558a;
     border: 1px solid #00326e;
     margin-bottom: 10px;
+}
+
+.btn-primary .glyphicon::before {
+    background-color: white;
 }
 
 .btn-primary:hover {
@@ -410,8 +450,5 @@ div > .bookmark-item button.btn.btn-default:hover, .btn-default:hover {
     border-color: #999;
     font-size: 14px;
 }
-
-
-
 
 
